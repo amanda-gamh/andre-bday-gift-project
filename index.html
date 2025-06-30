@@ -25,12 +25,12 @@
         <h3 class="header__subtitulo-jogo">eu não mereço menos do que um desafio que me faça utilizar todas as minhas
             capacidades
             (20/11/2024)</h3>
-        <div class="header__score-icon" title="Pontuação"><img src="src/icons/header-icons/star.svg" alt="Estrela">
-            <span id="header__score-number">0</span>
+
+        <div id="score-icon" title="Pontuação"><img src="src/icons/header-icons/star.svg" alt="Estrela">
+            <span id="score-number">0</span>
         </div>
 
-        <div class="header__music-icon" title="Clique para ativar trilha"><img
-                src="src/icons/tabuleiro-icons/music-note.svg" alt="Ativar Trilha Sonora"></div>
+        <div id="music-icon" title="Clique para ativar trilha"><img src="src/icons/tabuleiro-icons/music-note.svg" alt="Ativar Trilha Sonora"></div>
 
         <audio id="musica-fundo" src="./src/audio/andre-pousa-cafe-sem-cebola.mp3" loop></audio>
 
@@ -78,24 +78,23 @@
     <section class="jogo__tela" id="tela-jogo">
 
         <div class="jogo__controles" id="controle-lateral-direita">
-            <button class="botao-direcional" data-direcao="cima" id="botao-cima"><img
-                    src="./src/icons/controles/seta-cima.svg" alt="cima"></button>
-            <button class="botao-direcional" data-direcao="esquerda" id="botao-esquerda"><img
-                    src="./src/icons/controles/seta-esquerda.svg" alt="esquerda"></button>
-            <button class="botao-direcional" id="botao-space" data-direcao="space"> <img
-                    src="./src/icons/controles/solar-system-space.svg" alt="space-key"></button>
+            <button class="botao-direcional" data-direcao="cima" id="botao-cima">
+                <img src="./src/icons/controles/seta-cima.svg" alt="cima"></button>
+            <button class="botao-direcional" data-direcao="esquerda" id="botao-esquerda">
+                <img src="./src/icons/controles/seta-esquerda.svg" alt="esquerda"></button>
+            <button class="botao-direcional" id="botao-space" data-direcao="space">
+                <img src="./src/icons/controles/solar-system-space.svg" alt="space-key"></button>
         </div>
 
-        <div class="jogo" id="tabuleiro"></div>
+        <div class="jogo__tela" id="tabuleiro"></div>
 
-        </div>
         <div class="jogo__controles" id="controle-lateral-esquerda">
-            <button class="botao-direcional" data-direcao="baixo" id="botao-baixo"><img
-                    src="./src/icons/controles/seta-baixo.svg" alt="baixo"></button>
-            <button class="botao-direcional" data-direcao="direita" id="botao-direita"><img
-                    src="./src/icons/controles/seta-direita.svg" alt="direita"></button>
-            <button class="botao-direcional" id="botao-space" data-direcao="space"> <img
-                    src="./src/icons/controles/solar-system-space.svg" alt="space-key"></button>
+            <button class="botao-direcional" data-direcao="baixo" id="botao-baixo">
+                <img src="./src/icons/controles/seta-baixo.svg" alt="baixo"></button>
+            <button class="botao-direcional" data-direcao="direita" id="botao-direita">
+                <img src="./src/icons/controles/seta-direita.svg" alt="direita"></button>
+            <button class="botao-direcional" id="botao-space-2" data-direcao="space">
+                <img src="./src/icons/controles/solar-system-space.svg" alt="space-key"></button>
         </div>
 
     </section>
@@ -116,13 +115,18 @@
         </div>
     </section>
 
-    <section class="tela-final escondido" id="tela-final">
+    <section class="tela-final" id="tela-final">
+        <div class="container-final">
+        
+            <p id="texto-fim-jogo">Você concluiu suas tarefas e chegou ao nível 23 🧠⭐</p>
+        
         <div class="tela-final">
             <h2 id="texto-parabens"> Parabéns, André ♥♥♥♥ </h2>
             <img src="./src/img/little-man-1 maior.gif" id="andre-23" title="a23!!">
         </div>
-        <p id="texto-fim-jogo">Você concluiu suas tarefas e chegou ao nível 23 🧠⭐</p>
-        <button class="botao" id="botao-reiniciar" title="Vamos de novo!">Jogar novamente</button>
+
+        <button class="tela-final__botao" id="botao-reiniciar" title="Vamos de novo!">Jogar novamente</button>
+        </div>
     </section>
 
 
