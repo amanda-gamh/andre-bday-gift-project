@@ -1,19 +1,21 @@
 const botaoEntenda = document.getElementById('botao-entenda');
 const textoEntenda = document.querySelector('.pre-jogo__instrucoes');
+const botaoComecar = document.getElementById('botao-comecar');
+const telaInicial = document.querySelector('.pre-jogo');
 
 botaoEntenda.addEventListener('click', () => {
     textoEntenda.classList.toggle('ativo');
 });
 
-document.getElementById('botao-comecar').addEventListener('click', () => {
-    const telaInicial = document.getElementById('tela-inicial');
+botaoComecar.addEventListener('click', () => {
     telaInicial.classList.add('escondido');
 
     setTimeout(() => {
         telaInicial.style.display = 'none';
         document.getElementById('tela-jogo').style.display = 'block';
+
         desenharTabuleiro();
-    }, 1000); // mesmo tempo da transição CSS
+    }, 1000);
 });
 
 const botaoMusicaOn = document.getElementById('music-icon');
@@ -459,7 +461,7 @@ const mensagensMissoes = {
     '6-1': 'arrume a cama bem arrumadinho e ganhe +2 estrelas ☺',
     '5-0': 'escovar os dentes deve demorar uns hipotéticos 20 minutos terrestres. +2 estrelas!',
     '6-4': 'estudar valerá o dia inteiro, mas com intervalos pois ninguém estuda direto, ngm é 100% focado, isso é humanamente impossível. +2 estrelas',
-    '4-5': 'cálculos matemáticos; vc gosta muito, então passe várias horas terrestres neles! +2 estrelas',
+    '4-5': 'cálculos matemáticos. vc gosta muito, então passe várias horas terrestres neles! +2 estrelas',
     '4-2': 'agora você está a fazer uns experimentos químicos e dps relatórios! +2 estrelas',
     '3-6': 'passear com a Olive no horário certinho, sem pular a vez. U•ェ•*U. +2 estrelas',
     '2-1': 'dormir é uma missão importantíssima. se precisar ouça uns sons binaurais. +2 estrelas',
@@ -522,68 +524,92 @@ function verificarMissao() {
     const indice = posicao.linha * colunas + posicao.coluna;
     const celulaAtual = tabuleiro.children[indice];
     const missao = celulaAtual.querySelector('img.missao'); //se tem missao
-    const semMissao = celulaAtual.querySelector('img.sem-missao');
+    const final = celulaAtual.querySelector('img.missao-final');
     const mensagem = mensagensMissoes[chave] || mensagensNaoMissoes[chave];
 
-    //se missao já foi feita, nada acontece
-    if (celulaAtual.classList.contains('missao-concluida')) {
+    // Impede repetir missão já feita
+    if (celulaAtual.classList.contains('missao-concluida') || celulaAtual.classList.contains('missao-final-concluida')) {
+        caixaAviso.innerText = 'Você já concluiu essa missão.';
         return;
     }
 
-    const final = celulaAtual.querySelector('img.missao-final');
-
-    if (final) {
-        if (pontuacaoAtual < 22) {
-            alert('Você ainda não completou as outras tarefas. Volte aqui mais tarde!');
-            return;
-        }
-
-        const senha = prompt('Missão final! Digite a frase secreta:');
-
-        // Normaliza: remove espaços extras, deixa tudo em minúsculas
-        const senhaFormatada = senha?.trim().toLowerCase().replace(/\s+/g, ' ');
-
-        if (senhaFormatada === 'eu não mereço menos do que um desafio que me faça utilizar todas as minhas capacidades') {
-            pontuacaoAtual++; // 23
-            atualizarPontuacao();
-            caixaAviso.innerText = 'EEEEEEEEEEEEBAAA! Fim do dia com sucesso!';
-            irParaTelaFinal();
-        } else {
-            alert('Senha incorreta. Foi você quem falou, eu só enfeitei. Frase com 16 palavras.');
-        }
-        return;
-    }
-
-    if (missao) {
-        // iniciar tela, msg e tempo de missao
-        const tempo = temposMissoes[chave] || 3;
-        iniciarMissaoComMensagem(mensagem, tempo, () => {
-            missao.remove();
-            celulaAtual.classList.add('missao-concluida');
-            pontuacaoAtual += 2;
-            atualizarPontuacao();
-
-            const texto = document.createElement('span');
-            texto.textContent = '..';
-            texto.classList.add('missao-texto');
-            celulaAtual.appendChild(texto);
-
-            caixaAviso.innerText = mensagem;
-        });
-    } else {
-        // celulas comuns, nao é missao
+    // Célula comum (sem missão)
+    if (!missao && !final) {
         if (!celulaAtual.classList.contains('vazia-visitada')) {
             celulaAtual.classList.add('vazia-visitada');
-            const texto = document.createElement('span');
-            texto.textContent = '..';
-            texto.classList.add('missao-texto');
-            celulaAtual.appendChild(texto);
+
+            const span = document.createElement('span');
+            span.textContent = '..';
+            span.classList.add('missao-texto');
+            celulaAtual.appendChild(span);
         }
 
         caixaAviso.innerText = mensagem || 'Prossiga, nobre caminhante';
+        return;
     }
-}
 
+    // Missão comum
+    if (missao) {
+        const tempo = temposMissoes[chave] || 3;
+
+        iniciarMissaoComMensagem(mensagem, tempo, () => {
+            pontuacaoAtual += 2;
+            atualizarPontuacao();
+
+            missao.remove();
+            celulaAtual.classList.add('missao-concluida');
+
+            // //reomve qualquer conteudo anterior incluso img
+            // celulaAtual.innerHTML = '';
+
+            const span = document.createElement('span');
+            span.textContent = '..';
+            span.classList.add('missao-texto');
+            celulaAtual.appendChild(span);
+
+            caixaAviso.innerText = mensagem;
+        });
+
+        return;
+    }
+
+    // missao final
+    if (final) {
+        if (pontuacaoAtual < 22) {
+            alert('Você ainda não completou as outras tarefas. Volte aqui mais tarde!'); //     } ----> se eu quiser manter como alert e nao caixa aviso
+            caixaAviso.innerText = 'Você ainda não completou as outras tarefas. Volta aqui mais tarde!';
+            return;
+        }
+    }
+
+    const senha = prompt('Missão final! Digite a frase secreta: eu não mereço menos do...');
+    // Normaliza: remove espaços extras, deixa tudo em minúsculas
+    const senhaFormatada = senha?.trim().toLowerCase().replace(/\s+/g, ' ');
+    const senhaCorreta = 'eu não mereço menos do que um desafio que me faça utilizar todas as minhas capacidades';
+    if (senhaFormatada === senhaCorreta) {
+        pontuacaoAtual++; // 23
+        atualizarPontuacao();
+        caixaAviso.innerText = 'EEEEEEEEEEEEBAAA! Fim do dia com sucesso!';
+
+        celulaAtual.classList.add('missao-final-concluida');
+        final.remove();
+
+        const span = document.createElement('span');
+        span.textContent = '..';
+        span.classList.add('missao-texto');
+        celulaAtual.appendChild(span);
+
+        setTimeout(() => {
+            irParaTelaFinal();
+        }, 4000);
+
+    } else {
+        alert('Senha incorreta. Foi você quem falou, eu só enfeitei. Frase com 16 palavras.');
+    }
+
+    return;
+}
+/*tirei um trecho antigo, tá no backup */
 
 function iniciarMissaoComMensagem(mensagem, tempo, aoFinalizar) {
     const overlay = document.getElementById('mensagem-overlay');
@@ -596,9 +622,10 @@ function iniciarMissaoComMensagem(mensagem, tempo, aoFinalizar) {
 
     setTimeout(() => {
         overlay.style.display = 'none';
-        document.getElementById('bloqueio-interacao').style.display = 'none';
+        bloqueio.style.display = 'none';
+
+        if (aoFinalizar) aoFinalizar(); // modificado 01 07 25
     }, tempo * 1000);
-    if (aoFinalizar) aoFinalizar();
 }
 
 function irParaTelaFinal() {
@@ -609,23 +636,13 @@ function irParaTelaFinal() {
     telaJogo.classList.add('escondido');
 
     setTimeout(() => {
-        telaFinal.classList.remove('escondido');
+        telaFinal.classList.add('ativo'); //modifiquei aqui com ativo
         telaFinal.classList.add('fade-in');
-    }, 500);
+    }, 300);
 }
 
 const reiniciar = document.getElementById('botao-reiniciar');
 
 reiniciar.addEventListener('click', () => {
-    posicao = { linha: 6, coluna: 0 };
-    contadorPassos = 0;
-    pontuacaoAtual = 0;
-
-    atualizarPontuacao();
-    desenharTabuleiro();
-    atualizarHorario();
-
-    // Troca as telas de volta
-    document.getElementById('tela-final').classList.add('escondido');
-    document.getElementById('tela-jogo').classList.remove('escondido');
+    location.reload(); // recarrega a página do jogo
 });
