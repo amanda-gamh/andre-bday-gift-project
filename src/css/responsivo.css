@@ -1,12 +1,84 @@
-html{
+html {
     height: 100%;
 }
 
-body{
-    min-height: 100vh;
+body {
+    min-height: 100dvh;
 }
 
-@media (max-width: 480px){
-    width: 320px;
-    
+/* Regras para dispositivos com largura até 480px (celulares) */
+@media (max-width: 480px) and (orientation: portrait) {
+    body {
+        background-size: contain;
+        justify-content: flex-start;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #tela-inicial,
+    #tela-jogo,
+    #tela-final {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    #tabuleiro {
+        width: 90vw;
+        max-width: 100%;
+    }
+
+    .under-jogo {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        /* fui eu que testei o display flex aqui e o row ok */
+    }
+
+    #tela-inicial {
+        padding: 1rem;
+        text-align: center;
+    }
+
+    #tela-inicial h1 {
+        font-size: 1.5rem;
+    }
+
+    #tela-inicial p {
+        font-size: 1rem;
+    }
+
+    .botao-comecar {
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+    }
+
+    .layout-principal-jogo {
+        min-width: 500px;
+    }
+
+    #tela-jogo {
+        flex-direction: column;
+        justify-content: space-between;
+        overflow-x: auto;
+    }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+    body {
+        background-size: cover;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .under-jogo {
+        flex-direction: row;
+        position: static;
+        justify-content: center;
+    }
+
+    #tabuleiro {
+        width: 80vw;
+        max-width: 100%;
+        max-height: 400px;
+    }
 }
