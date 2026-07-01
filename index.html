@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" initial-scale="1.0">
+    <title>POV: André - apenas por diversão</title>
+    <meta name="description" content="Jogo divertido feito como presente de aniversário para meu crush">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="./src/css/reset.css">
+    <link rel="stylesheet" href="./src/css/estilos.css">
+    <link rel="stylesheet" href="./src/css/responsivo.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <h1 class="titulo-jogo" id="titulo-jogo">POV: André</h1>
+        <h3 class="subtitulo-jogo" id="subtitulo-jogo">eu não mereço menos do que um desafio que me faça utilizar todas
+            as minhas
+            capacidades
+            (20/11/2024)</h3>
+        <div class="header__icones">
+            <div id="score-icon" title="Pontuação"><img src="src/icons/header-icons/star.svg" alt="Estrela">
+                <span id="score-number">0</span>
+            </div>
+            <div id="music-icon" title="Clique para ativar trilha"><img src="src/icons/tabuleiro-icons/music-note.svg"
+                    alt="Ativar Trilha Sonora"></div>
+        </div>
+
+        <div class="estado-musica">
+            <span id="musica-ligada" style="display: none;">ON</span>
+            <span id="musica-desligada" style="display: none;">OFF</span>
+        </div>
+
+        <audio id="musica-fundo" src="./src/audio/andre-pousa-cafe-sem-cebola.mp3" loop></audio>
+
+    </header>
+
+    <section class="pre-jogo" id="tela-inicial">
+        <div class="pre-jogo__conteudo">
+
+            <h1 class="pre-jogo__titulo"> bem vindo ao mini jogo pov: andré </h1>
+
+            <button class="pre-jogo__botao" id="botao-entenda" title="Dê um clique para ler mais">Clique aqui para ler
+                como jogar</button>
+
+            <div class="pre-jogo__instrucoes" id="txt-entenda">
+                <p>Você é o André por enquanto.. Então, faça tarefinhas e veja o que acontece. </p>
+                <p>Para isso, use as <strong>setas</strong> do computador (cima, baixo, esquerda ou direita) para se
+                    <strong>movimentar</strong>.</p>
+                <p>Use a <strong>tecla espaço</strong> para verificar se há uma <strong>missão</strong> que acumula
+                    pontos!</p>
+                <p>Se estiver no celular, use os botões ao lado do jogo.</p>
+            </div>
+
+            <button class="pre-jogo__botao" id="botao-comecar" title="Clique para começar o jogo">Começar o dia</button>
+        </div>
+    </section>
+
+    <section class="over-jogo">
+        <div class='nuvem-overlay' id="mensagem-overlay">
+            <p id="mensagem-conteudo"></p>
+        </div>
+        <div class="timer-box" id="timer-box">
+            <span id="timer-numero"></span>
+        </div>
+        <div class="overlay-bloqueio" id="bloqueio-interacao"></div>
+    </section>
+
+    <section class="jogo__tela" id="tela-jogo">
+        <div class="layout-principal-jogo">
+            <div class="jogo__controles" id="controle-lateral-esquerda">
+                <button class="botao-direcional" data-direcao="cima" id="botao-cima">
+                    <img src="./src/icons/controles/seta-cima.svg" alt="cima"></button>
+                <button class="botao-direcional" data-direcao="esquerda" id="botao-esquerda">
+                    <img src="./src/icons/controles/seta-esquerda.svg" alt="esquerda"></button>
+                <button class="botao-direcional" id="botao-space" data-direcao="space">
+                    <img src="./src/icons/controles/solar-system-space.svg" alt="space-key"></button>
+            </div>
+
+            <div class="jogo__tela" id="tabuleiro"></div>
+
+            <div class="jogo__controles" id="controle-lateral-direita">
+                <button class="botao-direcional" data-direcao="baixo" id="botao-baixo">
+                    <img src="./src/icons/controles/seta-baixo.svg" alt="baixo"></button>
+                <button class="botao-direcional" data-direcao="direita" id="botao-direita">
+                    <img src="./src/icons/controles/seta-direita.svg" alt="direita"></button>
+                <button class="botao-direcional" id="botao-space-2" data-direcao="space">
+                    <img src="./src/icons/controles/solar-system-space.svg" alt="space-key"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Relógio condicionado ao movimento do personagem. Usar JavaScript -->
+    <section class="under-jogo">
+        <div class="under-jogo__bloco-debaixo">
+            <div class="jogo__relogio"> <img src="./src/icons/tabuleiro-icons/clock.svg" alt="Relógio">
+                <div class="jogo__relogio-hora01" id="texto-horario">06:00</div>
+            </div>
+            <div class="jogo__relogio-hora02" style="display: none;">10:00</div>
+            <div class="jogo__relogio-hora03" style="display: none;">13:00</div>
+            <div class="jogo__relogio-hora04" style="display: none;">17:00</div>
+            <div class="jogo__relogio-hora05" style="display: none;">20:00</div>
+            <div class="jogo__relogio-hora06" style="display: none;">23:10</div>
+        </div>
+        <div class="avisos" id="caixa-avisos">
+        </div>
+    </section>
+
+    <section class="tela-final" id="tela-final">
+        <div class="container-final">
+            <div class="texto-final">
+                <p id="texto-fim-jogo">Você concluiu suas tarefas e chegou ao nível 23. </p>
+                <p>Você é incrível. 📜⭐</p>
+                <p>༼ つ ◕_◕ ༽つ ass.: Amanda</p>
+            </div>
+            <div class="icones-final">
+                <h2 id="texto-parabens"> (Parabéns, André) </h2>
+                <img src="./src/img/little-man-1 maior.gif" id="andre-23" title="a23!!">
+                <p id="coracoes-final">♥♥♥♥</p>
+            </div>
+
+            <button class="tela-final__botao" id="botao-reiniciar" title="Vamos de novo!">Jogar novamente</button>
+        </div>
+    </section>
+
+
+    <footer class="rodape">@2025 - projeto de estudos, por Amanda Gamarra. Todos os direitos reservados.</footer>
+    <script src="./src/js/index.js"></script>
+</body>
+
+</html>
